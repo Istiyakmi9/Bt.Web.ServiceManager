@@ -72,9 +72,11 @@ export class RegisterNewOrgComponent implements OnInit {
     this.http.post(this.baseUrl + "create/new_organization", value).subscribe({
       next: data => {
         alert("Created");
+        this.isLoading = false;
       },
       error: error => {
         alert(error.message);
+        this.isLoading = false;
       }
     })
   }

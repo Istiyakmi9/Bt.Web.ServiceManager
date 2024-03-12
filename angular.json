@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ems_Portal": {
+    "emstum_internal": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ems_Portal:build:production"
+              "browserTarget": "emstum_internal:build:production"
             },
             "development": {
-              "browserTarget": "ems_Portal:build:development"
+              "browserTarget": "emstum_internal:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ems_Portal:build"
+            "browserTarget": "emstum_internal:build"
           }
         },
         "test": {
