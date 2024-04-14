@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./register-new-org.component.scss']
 })
 export class RegisterNewOrgComponent implements OnInit {
-  activePage: number = 1;
+  activePage: number = 2;
   isShowPassword: boolean = false;
   inputType: string = "password";
   submitted: boolean = false;
@@ -28,31 +28,20 @@ export class RegisterNewOrgComponent implements OnInit {
 
   initForm() {
     this.initialForm = this.fb.group({
-      Server: new FormControl(null, [Validators.required]),
-      Database: new FormControl(null, [Validators.required]),
-      Port: new FormControl(null, [Validators.required]),
-      User_Id: new FormControl(null, [Validators.required]),
-      Password: new FormControl(null, [Validators.required]),
       OrganizationName: new FormControl(null, [Validators.required]),
-      CompanyName: new FormControl(null, [Validators.required]),
-      FirstName: new FormControl(null, [Validators.required]),
-      LastName: new FormControl(null, [Validators.required]),
+      OwnerName: new FormControl(null, [Validators.required]),
       EmailId: new FormControl(null, [Validators.required, Validators.email]),
       GSTNo: new FormControl(null, [Validators.required]),
-      AccountNo: new FormControl(null, [Validators.required]),
-      BankName: new FormControl(null, [Validators.required]),
-      Branch: new FormControl(null, [Validators.required]),
-      BranchCode: new FormControl(null, ),
-      IFSC: new FormControl(null, [Validators.required]),
-      IsPrimaryAccount: new FormControl (true, [Validators.required]),
+      CompanyName: new FormControl(null, [Validators.required]),
       Mobile: new FormControl(null, [Validators.required]),
-      FirstAddress: new FormControl(null, [Validators.required]),
-      SecondAddress: new FormControl(null, [Validators.required]),
-      ThirdAddress: new FormControl(null),
-      ForthAddress: new FormControl(null),
+      FullAdress: new FormControl(null, [Validators.required]),
       Country: new FormControl(null),
       State: new FormControl(null),
       City: new FormControl(null),
+      ProbationPeriodInDays: new FormControl(90),
+      NoticePeriodInDays: new FormControl(90),
+      NoticePeriodInProbation: new FormControl(90),
+      TimezoneName: new FormControl("India Standard Time")
     })
   }
 
@@ -69,6 +58,40 @@ export class RegisterNewOrgComponent implements OnInit {
       return;
     }
     let value = this.initialForm.value;
+    if (value.OwnerName.includes(" ")) {
+      let name = value.OwnerName.split(" ");
+      if (name == null) {
+        alert("Unable to read owner name");
+        return;
+      }
+
+      if (name.length >= 2) {
+        value.FirstName = name[0];
+        value.LastName = name.splice(1).join(" ");
+      } else {
+        value.FirstName = name[0];
+        value.LastName = "";
+      }
+    } else {
+      value.FirstName = value.OwnerName;
+      value.LastName = "";
+    }
+    if (value.FullAdress.includes(" ")) {
+      let address = value.FullAdress.split(" ");
+      if (address == null) {
+        alert("Unable to read full address");
+        return;
+      }
+
+      if (address.length >= 3) {
+        value.FirstAddress = address[0] + " " + address[1];
+        value.SecondAddress = address.splice(2).join(" ");
+      }
+       else {
+        value.FirstAddress = address[0];
+        value.LastAddress = address[1];
+       }
+    }
     this.http.post(this.baseUrl + "create/new_organization", value).subscribe({
       next: data => {
         alert("Created");
