@@ -1,8 +1,6 @@
 export const environment = {
   production: true,
-  env: "production",
+  env: 'production',
 
-  baseURL: "https://www.emstum.in/bot/sb/",
-
-  FolderDelimiter: "\/"
+  baseURL: 'https://www.emstum.in/api/',
 };

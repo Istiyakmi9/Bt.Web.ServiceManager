@@ -1,8 +1,6 @@
 export const environment = {
   production: false,
-  env: "local",
+  env: 'local',
 
-  baseURL: "http://localhost:8080/api/",
-
-  FolderDelimiter: "\\"
+  baseURL: 'http://localhost:8080/api/',
 };
