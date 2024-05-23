@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-trail-list',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 export class TrailListComponent implements OnInit {
   isPageReady: boolean = false;
   trialList: Array<any> = [];
-  baseUrl: string = "http://localhost:8075/api/";
+  baseUrl: string = "";
   trialData: Filter = new Filter();
 
   constructor(private http: HttpClient,
@@ -18,6 +19,7 @@ export class TrailListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.baseUrl = environment.baseURL;
     this.loadData();
   }
 

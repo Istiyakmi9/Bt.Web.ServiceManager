@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import data from "../../assets/server.json";
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-register-new-org',
@@ -19,7 +20,7 @@ export class RegisterNewOrgComponent implements OnInit {
   serverId: number = 0;
   password: string = null;
   serverDetail: Array<any> = data;
-  baseUrl: string = "http://localhost:8075/api/";
+  baseUrl: string = "";
   trailRequestId: number = 0;
   isPageReady: boolean = false;
   companyIntialDetai: CompanyIntialDetai = {
@@ -45,6 +46,7 @@ export class RegisterNewOrgComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.baseUrl = environment.baseURL;
     if (this.trailRequestId > 0) {
       this.loadData()
     } else {
