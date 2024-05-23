@@ -6,11 +6,15 @@ import { AppComponent } from './app.component';
 import { RegisterNewOrgComponent } from './register-new-org/register-new-org.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { TrailListComponent } from './trail-list/trail-list.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterNewOrgComponent
+    RegisterNewOrgComponent,
+    TrailListComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
