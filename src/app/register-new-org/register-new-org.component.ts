@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import data from "../../assets/server.json";
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -11,7 +11,6 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./register-new-org.component.scss']
 })
 export class RegisterNewOrgComponent implements OnInit {
-  activePage: number = 2;
   isShowPassword: boolean = false;
   inputType: string = "password";
   submitted: boolean = false;
@@ -41,7 +40,8 @@ export class RegisterNewOrgComponent implements OnInit {
   }
   constructor( private fb: FormBuilder,
                private http: HttpClient,
-              private router: ActivatedRoute) {
+              private router: ActivatedRoute,
+              private route: Router) {
     this.trailRequestId = Number(this.router.snapshot.queryParams['Id']);
   }
 
@@ -78,7 +78,7 @@ export class RegisterNewOrgComponent implements OnInit {
       OrganizationName: new FormControl(this.companyIntialDetai.OrganizationName, [Validators.required]),
       OwnerName: new FormControl(this.companyIntialDetai.FullName, [Validators.required]),
       EmailId: new FormControl(this.companyIntialDetai.Email, [Validators.required, Validators.email]),
-      GSTNo: new FormControl(this.companyIntialDetai.GSTNo, [Validators.required]),
+      GSTNo: new FormControl(this.companyIntialDetai.GSTNo != null ? this.companyIntialDetai.GSTNo : "000000000", [Validators.required]),
       CompanyName: new FormControl(this.companyIntialDetai.CompanyName, [Validators.required]),
       Mobile: new FormControl(this.companyIntialDetai.PhoneNumber, [Validators.required]),
       FullAddress: new FormControl(this.companyIntialDetai.FullAddress, [Validators.required]),
@@ -142,6 +142,7 @@ export class RegisterNewOrgComponent implements OnInit {
     this.http.post(this.baseUrl + "create/new_organization", value).subscribe({
       next: data => {
         alert("Created");
+        this.route.navigate(["/companytrialist"]);
         this.isLoading = false;
       },
       error: error => {
@@ -158,23 +159,6 @@ export class RegisterNewOrgComponent implements OnInit {
     } else {
       this.inputType = "password";
       this.isShowPassword = false;
-    }
-  }
-
-  nextPage() {
-    if (this.password && this.serverId > 0) {
-      let server = this.serverDetail.find(x => x.Id = this.serverId);
-      if (server) {
-        this.initialForm.get("Server").setValue(server.Server);
-        this.initialForm.get("Database").setValue(server.Database);
-        this.initialForm.get("Port").setValue(server.Port);
-        this.initialForm.get("User_Id").setValue(server.User_Id);
-        this.initialForm.get("Password").setValue(this.password);
-        this.activePage = 2;
-        this.submitted = false;
-      }
-    } else {
-      this.submitted = true;
     }
   }
 }
