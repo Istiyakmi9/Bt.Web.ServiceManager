@@ -124,20 +124,15 @@ export class RegisterNewOrgComponent implements OnInit {
       value.LastName = "";
     }
     if (value.FullAddress.includes(" ")) {
-      let address = value.FullAddress.split(" ");
-      if (address == null) {
+      //let address = value.FullAddress.split(" ");
+      if (value.FullAddress == null) {
         alert("Unable to read full address");
         return;
       }
 
-      if (address.length >= 3) {
-        value.FirstAddress = address[0] + " " + address[1];
-        value.SecondAddress = address.splice(2).join(" ");
-      }
-       else {
-        value.FirstAddress = address[0];
-        value.LastAddress = address[1];
-       }
+      var addressPart = this.splitAddress(value.FullAddress);
+      value.FirstAddress = addressPart.part1;
+      value.SecondAddress = addressPart.part2;
     }
     this.http.post(this.baseUrl + "create/new_organization", value).subscribe({
       next: data => {
@@ -160,6 +155,26 @@ export class RegisterNewOrgComponent implements OnInit {
       this.inputType = "password";
       this.isShowPassword = false;
     }
+  }
+
+  private splitAddress(address: string): { part1: string; part2: string } {
+    const maxLength = Math.floor(address.length / 2); // Try splitting at the middle
+    let splitIndex = address.lastIndexOf(" ", maxLength); // Find nearest space before the midpoint
+  
+    // If no space found before midpoint, look for space after the midpoint
+    if (splitIndex === -1) {
+      splitIndex = address.indexOf(" ", maxLength);
+    }
+  
+    // If still no space is found, return full address in one part
+    if (splitIndex === -1) {
+      return { part1: address, part2: "" };
+    }
+  
+    return {
+      part1: address.substring(0, splitIndex).trim(),
+      part2: address.substring(splitIndex).trim(),
+    };
   }
 }
 
