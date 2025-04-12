@@ -8,13 +8,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TrailListComponent } from './trail-list/trail-list.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { ReloadDbComponent } from './reload-db/reload-db.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterNewOrgComponent,
     TrailListComponent,
-    PaginationComponent
+    PaginationComponent,
+    ReloadDbComponent
   ],
   imports: [
     BrowserModule,

@@ -13,18 +13,38 @@ export class TrailListComponent implements OnInit {
   trialList: Array<any> = [];
   baseUrl: string = "";
   trialData: Filter = new Filter();
-
+  active: number = 1;
   constructor(private http: HttpClient,
               private route: Router
   ) {}
 
   ngOnInit(): void {
     this.baseUrl = environment.baseURL;
-    this.loadData();
+    this.getPendingTrailRequesst();
   }
 
-  loadData() {
+  getPendingTrailRequesst() {
     this.isPageReady = false;
+    this.trialData.IsProcessed = false;
+    this.http.post(this.baseUrl + "trial/companyTrial", this.trialData).subscribe({
+      next: (data: any) =>{
+        this.trialList = data.responseBody;
+        if (this.trialList && this.trialList.length > 0)
+          this.trialData.TotalRecords = this.trialList[0].Total;
+        else
+          this.trialData.TotalRecords = 0;
+
+        this.isPageReady = true;
+      },
+      error: error => {
+        console.log(error);
+      }
+    })
+  }
+
+  getCompletedTrailRequesst() {
+    this.isPageReady = false;
+    this.trialData.IsProcessed = true;
     this.http.post(this.baseUrl + "trial/companyTrial", this.trialData).subscribe({
       next: (data: any) =>{
         this.trialList = data.responseBody;
@@ -50,7 +70,22 @@ export class TrailListComponent implements OnInit {
   GetFilterResult(e: Filter) {
     if(e != null) {
       this.trialData = e;
-      this.loadData();
+      if (this.active == 1) {
+        this.getPendingTrailRequesst();
+      } else {
+        this.getCompletedTrailRequesst();
+      }
+    }
+  }
+
+  activeTab(event:Event) {
+    let activeTabId = Number((event.currentTarget as HTMLElement).getAttribute('data-name'));
+    this.active = activeTabId;
+    this.trialData.reset();
+    if (this.active == 1) {
+      this.getPendingTrailRequesst();
+    } else {
+      this.getCompletedTrailRequesst();
     }
   }
 }
@@ -71,7 +106,7 @@ export class Filter {
   isReUseSame?: boolean = false;
   isActive?: boolean = true;
   SortDirection?: string = null;
-
+  IsProcessed: boolean = false;
   update(total: any) {
     if(!isNaN(Number(total))) {
       this.TotalRecords = total;

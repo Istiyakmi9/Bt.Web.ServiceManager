@@ -2,9 +2,14 @@
   background-image: url("../assets/bg21.png");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100%;
+  min-height: 100vh;
 }
 
 .nav-bg {
   background-color: #ffffff4f !important;
+}
+
+.active {
+  font-weight: bold;
+  text-decoration: underline;
 }
