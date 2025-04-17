@@ -9,6 +9,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { TrailListComponent } from './trail-list/trail-list.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ReloadDbComponent } from './reload-db/reload-db.component';
+import { ServiceHealthComponent } from './service-health/service-health.component';
+import { LoginComponent } from './login/login.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import { ReloadDbComponent } from './reload-db/reload-db.component';
     RegisterNewOrgComponent,
     TrailListComponent,
     PaginationComponent,
-    ReloadDbComponent
+    ReloadDbComponent,
+    ServiceHealthComponent,
+    LoginComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,

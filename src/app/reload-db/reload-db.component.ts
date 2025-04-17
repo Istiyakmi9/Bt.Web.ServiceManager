@@ -99,7 +99,7 @@ interface MasterConnectionString {
   Pooling: boolean
 }
 
-interface ResponseModal {
+export interface ResponseModal {
   statusCode: number,
   message: string,
   responseBody: any
