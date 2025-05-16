@@ -195,3 +195,19 @@
   background: white;
   color: #444;
 }
+
+.active-tab {
+  border-bottom: 0px !important;
+  border-radius: 10px 10px 0px 0px;
+  background-color: #337ab7;
+  transition: all 0.3s linear;
+  pointer-events: none !important;
+  a {
+    color: #fff;
+    pointer-events: none !important;
+  }
+}
+
+.pe-click {
+  cursor: pointer;
+}

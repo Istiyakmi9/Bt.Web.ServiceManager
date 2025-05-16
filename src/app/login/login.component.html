@@ -1,0 +1,30 @@
+<div class="container-fluid d-flex align-items-center justify-content-between vh-100">
+    <div class="signin-container">
+        <div class="text-center">
+            <h1 class="text-white">EMSTUM</h1>
+            <h1 class="text-white">Team Login</h1>
+        </div>
+        <form class="mt-4">
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-user"></i>
+                </span>
+                <input type="text" class="form-control" placeholder="Email address">
+            </div>
+            <div class="position-relative">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">
+                        <i class="fa-solid fa-lock"></i>
+                    </span>
+                    <input [type]="type" class="form-control" placeholder="Password">
+                </div>
+                <a href="javascript:void(0)" class="position-absolute text-dark" style="right: 1%; top: 13%; z-index: 9999 !important;" (click)="showHidePassword()">
+                    <i class="fa-solid " [ngClass]="{'fa-eye-slash': !isPasswordShow, 'fa-eye': isPasswordShow}"></i>
+                </a>
+            </div>
+            <div class="d-grid mb-4">
+                <button type="submit" class="btn btn-primary-c" (click)="login()">Login</button>
+            </div>
+        </form>
+    </div>
+</div>

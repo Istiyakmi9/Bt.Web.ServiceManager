@@ -8,13 +8,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TrailListComponent } from './trail-list/trail-list.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { ReloadDbComponent } from './reload-db/reload-db.component';
+import { ServiceHealthComponent } from './service-health/service-health.component';
+import { LoginComponent } from './login/login.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterNewOrgComponent,
     TrailListComponent,
-    PaginationComponent
+    PaginationComponent,
+    ReloadDbComponent,
+    ServiceHealthComponent,
+    LoginComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,
