@@ -63,7 +63,7 @@ export class TrailListComponent implements OnInit {
 
   viewTrial(item: any) {
     if (item) {
-      this.route.navigate(["/registerneworg"], {queryParams: {Id: item.TrailRequestId}});
+      this.route.navigate(["/ems/registerneworg"], {queryParams: {Id: item.TrailRequestId}});
     }
   }
 
