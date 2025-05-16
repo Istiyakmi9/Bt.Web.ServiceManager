@@ -12,6 +12,9 @@ import { ReloadDbComponent } from './reload-db/reload-db.component';
 import { ServiceHealthComponent } from './service-health/service-health.component';
 import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './layout/layout.component';
+import { JobsListComponent } from './jobs-list/jobs-list.component';
+import { ManageCronjobComponent } from './manage-cronjob/manage-cronjob.component';
+import { NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -22,14 +25,18 @@ import { LayoutComponent } from './layout/layout.component';
     ReloadDbComponent,
     ServiceHealthComponent,
     LoginComponent,
-    LayoutComponent
+    LayoutComponent,
+    JobsListComponent,
+    ManageCronjobComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule,
+    NgbDatepickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
