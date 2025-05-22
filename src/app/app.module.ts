@@ -15,6 +15,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { JobsListComponent } from './jobs-list/jobs-list.component';
 import { ManageCronjobComponent } from './manage-cronjob/manage-cronjob.component';
 import { NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CronJobComponent } from './cron-job/cron-job.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LoginComponent,
     LayoutComponent,
     JobsListComponent,
-    ManageCronjobComponent
+    ManageCronjobComponent,
+    CronJobComponent
   ],
   imports: [
     BrowserModule,

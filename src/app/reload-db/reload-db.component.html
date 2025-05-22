@@ -21,6 +21,7 @@
                 <th scope="col">Organization Code</th>
                 <th scope="col">Code</th>
                 <th scope="col">Database </th>
+                <th scope="col" class="text-center">Cron Job</th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,11 @@
                 <td>{{item.OrganizationCode}}</td>
                 <td>{{item.Code}}</td>
                 <td>{{item.Database}}</td>
+                <td class="text-center">
+                    <a href="javascript:void(0)" class="text-decoration-none" (click)="viewCronjob(item.Code, item.Database)">
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>

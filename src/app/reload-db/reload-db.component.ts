@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import * as bootstrap from 'bootstrap';
 import { Filter } from '../trail-list/trail-list.component';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reload-db',
@@ -15,7 +16,9 @@ export class ReloadDbComponent implements OnInit {
   baseUrl: string = "";
   filterData: Filter =null;
   filterText: string = "";
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private route: Router
+  ) {}
   ngOnInit(): void {
     this.baseUrl = environment.baseURL;
     this.filterData = new Filter();
@@ -79,6 +82,10 @@ export class ReloadDbComponent implements OnInit {
     var modal = new bootstrap.Modal(modalElement);
     if (modal)
       modal.show();
+  }
+
+  viewCronjob(companyCode: any, db: any) {
+    this.route.navigate(["/ems/reloaddb/cronjob"], {queryParams: {companyCode: companyCode, db: db}})
   }
 }
 interface MasterConnectionString {

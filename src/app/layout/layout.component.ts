@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -7,8 +8,13 @@ import { Component, HostListener } from '@angular/core';
 })
 export class LayoutComponent {
   isScrolled = false;
+  constructor(private auth: AuthService){}
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.scrollY > 10; // adjust the value as needed
+  }
+
+  logout() {
+    this.auth.logout();
   }
 }
