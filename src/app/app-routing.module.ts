@@ -8,6 +8,8 @@ import { JobsListComponent } from './jobs-list/jobs-list.component';
 import { ManageCronjobComponent } from './manage-cronjob/manage-cronjob.component';
 import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './layout/layout.component';
+import { AuthGuard } from './services/auth.guard';
+import { CronJobComponent } from './cron-job/cron-job.component';
 
 const routes: Routes = [
   // {path: "", redirectTo: 'companytrialist', pathMatch: 'full'},
@@ -21,19 +23,20 @@ const routes: Routes = [
   { path: 'ems', component: LayoutComponent, 
     children: [
       {path: '', component: TrailListComponent},
-      {path: "registerneworg", component: RegisterNewOrgComponent},
-      {path: "companytrialist", component: TrailListComponent},
-      {path: "reloaddb", component: ReloadDbComponent},
-      {path: "servicehealth", component: ServiceHealthComponent},
-      {path: "jobs", component: JobsListComponent},
-      {path: "jobs/managejob", component: ManageCronjobComponent},
+      {path: "registerneworg", component: RegisterNewOrgComponent, canActivate: [AuthGuard]},
+      {path: "companytrialist", component: TrailListComponent, canActivate: [AuthGuard]},
+      {path: "reloaddb", component: ReloadDbComponent, canActivate: [AuthGuard]},
+      {path: "servicehealth", component: ServiceHealthComponent, canActivate: [AuthGuard]},
+      {path: "jobs", component: JobsListComponent, canActivate: [AuthGuard]},
+      {path: "jobs/managejob", component: ManageCronjobComponent, canActivate: [AuthGuard]},
+      {path: "reloaddb/cronjob", component: CronJobComponent, canActivate: [AuthGuard]},
     ]
   },
   { path: '**', redirectTo: 'login'},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
