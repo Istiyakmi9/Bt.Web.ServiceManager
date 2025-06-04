@@ -4,6 +4,7 @@ import * as bootstrap from 'bootstrap';
 import { Filter } from '../trail-list/trail-list.component';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { Toast } from '../services/common.service';
 
 @Component({
   selector: 'app-reload-db',
@@ -46,7 +47,7 @@ export class ReloadDbComponent implements OnInit {
     this.http.get(this.baseUrl + "dbConnection/reloadConnection").subscribe({
       next: (data:ResponseModal) => {
         if (data.responseBody) {
-          alert("Connection reloaded successfully");
+          Toast("Connection reloaded successfully");
           this.masterConnectionString = data.responseBody;
           this.isLoading = false;
           let modalElement = document.getElementById("reloadAlertModal");

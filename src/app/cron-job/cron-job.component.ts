@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ResponseModal } from '../reload-db/reload-db.component';
 import { ActivatedRoute } from '@angular/router';
+import { Toast } from '../services/common.service';
 
 @Component({
   selector: 'app-cron-job',
@@ -30,7 +31,7 @@ export class CronJobComponent implements OnInit {
     this.http.get(this.baseUrl + `Job/generateAttendance/${this.companyCode}`).subscribe({
       next: (data: ResponseModal) => {
         if (data.responseBody) {
-          alert("Attendance generated");
+          Toast("Attendance generated");
           this.isLoading = false;
         }
       }, 
@@ -46,7 +47,7 @@ export class CronJobComponent implements OnInit {
     this.http.get(this.baseUrl + `Job/yearlyLeaveGenerate/${this.companyCode}`).subscribe({
       next: (data: ResponseModal) => {
         if (data.responseBody) {
-          alert("Yearly Leave generated");
+          Toast("Yearly Leave generated");
           this.isLoading = false;
         }
       }, 
