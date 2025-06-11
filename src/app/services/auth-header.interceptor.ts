@@ -7,20 +7,24 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CompanyName } from './constant';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthHeaderInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+     const company = this.authService.getCurrentCompany(); 
     // Example header: Add Authorization or any custom header
-    const modifiedReq = req.clone({
-      setHeaders: {
-        'company': sessionStorage.getItem(CompanyName), // You can replace with dynamic values
-      }
-    });
-
-    return next.handle(modifiedReq);
+    if (!req.url.includes("authenticateUser")) {
+      const modifiedReq = req.clone({
+        setHeaders: {
+          'Company': company, // You can replace with dynamic values
+        }
+      });
+      return next.handle(modifiedReq);
+    }
+    return next.handle(req);
   }
 }

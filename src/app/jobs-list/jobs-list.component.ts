@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ErrorToast } from '../services/common.service';
 
 @Component({
   selector: 'app-jobs-list',
@@ -32,7 +33,7 @@ export class JobsListComponent implements OnInit {
           this.isPageReady = true;
         }
       }, error: err => {
-        console.error(err);
+        ErrorToast(err.error.ResponseBody);
         this.isPageReady = true;
       }
     })

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ResponseModal } from '../reload-db/reload-db.component';
 import { ActivatedRoute } from '@angular/router';
-import { Toast } from '../services/common.service';
+import { ErrorToast, Toast } from '../services/common.service';
 
 @Component({
   selector: 'app-cron-job',
@@ -23,7 +23,6 @@ export class CronJobComponent implements OnInit {
   }
   ngOnInit(): void {
      this.baseUrl = environment.baseURL;
-     console.log(this.companyCode);
   }
 
   generateAttendance() {
@@ -36,7 +35,7 @@ export class CronJobComponent implements OnInit {
         }
       }, 
       error: error => {
-        console.log(error);
+        ErrorToast(error.error.ResponseBody)
         this.isLoading = false;
       }
     })
@@ -52,7 +51,7 @@ export class CronJobComponent implements OnInit {
         }
       }, 
       error: error => {
-        console.log(error);
+        ErrorToast(error.error.ResponseBody);
         this.isLoading = false;
       }
     })

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth } from './constant';
+import { Auth, CompanyName } from './constant';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +22,9 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return this.isLoggedIn || sessionStorage.getItem(Auth) === 'true';
+  }
+
+  getCurrentCompany(): string {
+    return sessionStorage.getItem(CompanyName);
   }
 }

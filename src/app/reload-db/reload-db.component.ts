@@ -4,7 +4,7 @@ import * as bootstrap from 'bootstrap';
 import { Filter } from '../trail-list/trail-list.component';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
-import { Toast } from '../services/common.service';
+import { ErrorToast, Toast } from '../services/common.service';
 
 @Component({
   selector: 'app-reload-db',
@@ -36,7 +36,7 @@ export class ReloadDbComponent implements OnInit {
         }
       },
       error: error => {
-        console.log(error);
+        ErrorToast(error.error.ResponseBody);
         this.isLoading = false;
       }
     })
@@ -57,7 +57,7 @@ export class ReloadDbComponent implements OnInit {
         }
       },
       error: error => {
-        console.log(error);
+        ErrorToast(error.error.ResponseBody);
         this.isLoading = false;
       }
     })

@@ -1,24 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ErrorToast, Toast } from '../services/common.service';
 import { CompanyName } from '../services/constant';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   isPasswordShow: boolean = false;
   type: string = "password";
   password: string = "";
   email: string = "";
   submitted: boolean = false;
-  company: string ="Emstum"
+  company: string ="emstum";
+  baseUrl: string = "";
   constructor(private router: Router,
-              private auth: AuthService
+              private auth: AuthService,
+              private http: HttpClient
   ) {}
+  ngOnInit(): void {
+    this.baseUrl = environment.baseURL;
+  }
 
   login() {
     this.submitted = true;
@@ -32,34 +39,24 @@ export class LoginComponent {
       return;
     }
 
-    
-    if (this.company == 'Emstum') {
-      if (this.email != "info@bottomhalf.in") {
-        ErrorToast("Please enter registered email id");
-        return;
-      }
-      
-      if (this.password != "123456789") {
-        ErrorToast("Please enter correct password");
-        return;
-      }
-    } else if (this.company == 'ElitePay') {
-      if (this.email != "info@elitepayroll.in") {
-        ErrorToast("Please enter registered email id");
-        return;
-      }
-      
-      if (this.password != "123456789") {
-        ErrorToast("Please enter correct password");
-        return;
-      }
+    let value = {
+      Email: this.email,
+      Password: this.password,
+      Company: this.company
     }
 
-
-    this.auth.login();
-    sessionStorage.setItem(CompanyName, this.company);
-    this.router.navigateByUrl("/ems/companytrialist");
-    Toast("Login successfully.")
+    this.http.post(this.baseUrl + "login/authenticateUser", value).subscribe({
+      next: (res: any) => {
+        if (res.responseBody) {
+          this.auth.login();
+          sessionStorage.setItem(CompanyName, this.company);
+          this.router.navigateByUrl("/ems/companytrialist");
+          Toast("Login successfully.")
+        }
+      }, error: err => {
+        ErrorToast(err.error.ResponseBody);
+      }
+    })
   }
 
   showHidePassword() {
