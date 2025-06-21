@@ -74,10 +74,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "emstum_internal:build:production"
+              "buildTarget": "emstum_internal:build:production"
             },
             "development": {
-              "browserTarget": "emstum_internal:build:development"
+              "buildTarget": "emstum_internal:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -85,7 +85,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "emstum_internal:build"
+            "buildTarget": "emstum_internal:build"
           }
         },
         "test": {
