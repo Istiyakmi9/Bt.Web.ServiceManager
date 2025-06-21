@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterNewOrgComponent } from './register-new-org/register-new-org.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TrailListComponent } from './trail-list/trail-list.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ReloadDbComponent } from './reload-db/reload-db.component';
@@ -16,6 +16,8 @@ import { JobsListComponent } from './jobs-list/jobs-list.component';
 import { ManageCronjobComponent } from './manage-cronjob/manage-cronjob.component';
 import { NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CronJobComponent } from './cron-job/cron-job.component';
+import { ToastComponent } from './toast/toast.component';
+import { AuthHeaderInterceptor } from './services/auth-header.interceptor';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { CronJobComponent } from './cron-job/cron-job.component';
     LayoutComponent,
     JobsListComponent,
     ManageCronjobComponent,
-    CronJobComponent
+    CronJobComponent,
+    ToastComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,11 @@ import { CronJobComponent } from './cron-job/cron-job.component';
     NgbModule,
     NgbDatepickerModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthHeaderInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
