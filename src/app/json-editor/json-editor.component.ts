@@ -293,7 +293,7 @@ export class JsonEditorComponent implements AfterViewInit, OnInit {
           this.route.navigate(["/ems/filelist"])
         },
         error: error => {
-          ErrorToast(error);
+          ErrorToast(error.error.ResponseBody);
         }
       })
     }
@@ -309,7 +309,7 @@ export class JsonEditorComponent implements AfterViewInit, OnInit {
         Toast("Data loaded successfully");
       },
       error: error => {
-        ErrorToast(error);
+        ErrorToast(error.error.ResponseBody);
         this.isPageReady = true;
       }
     })

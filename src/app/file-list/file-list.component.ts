@@ -37,7 +37,7 @@ export class FileListComponent implements OnInit {
         this.isPageReady = true;
       },
       error: error => {
-        ErrorToast(error);
+        ErrorToast(error.error.ResponseBody);
         this.isPageReady = true;
       }
     })
@@ -69,7 +69,7 @@ export class FileListComponent implements OnInit {
           this.isLoading = false;
         },
         error: error => {
-          ErrorToast(error);
+          ErrorToast(error.error.ResponseBody);
           this.isLoading = false;
         }
       })

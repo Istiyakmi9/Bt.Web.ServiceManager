@@ -38,7 +38,7 @@ export class TrailListComponent implements OnInit {
         this.isPageReady = true;
       },
       error: error => {
-        ErrorToast(error);
+        ErrorToast(error.error.ResponseBody);
       }
     })
   }
@@ -57,7 +57,7 @@ export class TrailListComponent implements OnInit {
         this.isPageReady = true;
       },
       error: error => {
-        ErrorToast(error);
+        ErrorToast(error.error.ResponseBody);
       }
     })
   }

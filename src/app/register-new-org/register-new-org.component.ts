@@ -68,7 +68,7 @@ export class RegisterNewOrgComponent implements OnInit {
         this.isPageReady = true;
       },
       error: error => {
-        ErrorToast(error);
+        ErrorToast(error.error.ResponseBody);
       }
     })
   }

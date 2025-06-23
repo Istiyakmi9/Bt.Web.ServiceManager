@@ -36,7 +36,7 @@ export class ReloadDbComponent implements OnInit {
         }
       },
       error: error => {
-        ErrorToast(error);
+        ErrorToast(error.error.ResponseBody);
         this.isLoading = false;
       }
     })
@@ -57,7 +57,7 @@ export class ReloadDbComponent implements OnInit {
         }
       },
       error: error => {
-        ErrorToast(error);
+        ErrorToast(error.error.ResponseBody);
         this.isLoading = false;
       }
     })
