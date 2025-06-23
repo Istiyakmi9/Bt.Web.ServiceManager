@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ErrorToast } from '../services/common.service';
 
 @Component({
   selector: 'app-trail-list',
@@ -37,7 +38,7 @@ export class TrailListComponent implements OnInit {
         this.isPageReady = true;
       },
       error: error => {
-        console.log(error);
+        ErrorToast(error);
       }
     })
   }
@@ -56,7 +57,7 @@ export class TrailListComponent implements OnInit {
         this.isPageReady = true;
       },
       error: error => {
-        console.log(error);
+        ErrorToast(error);
       }
     })
   }

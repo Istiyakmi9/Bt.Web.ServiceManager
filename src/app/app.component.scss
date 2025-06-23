@@ -21,3 +21,20 @@
 // nav.scrolled {
 //   background-color: #fff !important; /* change to your desired color */
 // }
+
+.custom-toast {
+  position: fixed;
+  border-radius: 4px;
+  font-weight: bold;
+  z-index: 1000000;
+  font-size: 0.8rem;
+  top: 0.2rem;
+  right: 0.2rem;
+  max-width: 20rem;
+  min-width: 11rem;
+}
+
+.custom-toast:hover {
+  opacity: 0.4;
+  cursor: pointer;
+}
