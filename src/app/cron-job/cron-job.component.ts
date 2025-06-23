@@ -35,7 +35,7 @@ export class CronJobComponent implements OnInit {
         }
       }, 
       error: error => {
-        ErrorToast(error);
+        ErrorToast(error.error.ResponseBody);
         this.isLoading = false;
       }
     })
@@ -51,7 +51,7 @@ export class CronJobComponent implements OnInit {
         }
       }, 
       error: error => {
-        ErrorToast(error);
+        ErrorToast(error.error.ResponseBody);
         this.isLoading = false;
       }
     })
