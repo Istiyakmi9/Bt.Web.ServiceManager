@@ -1,0 +1,11 @@
+.delete-file-box {
+    right: 6px;
+    top: 3px;
+    opacity: 0;
+    transition: all 0.3s linear;
+}
+
+
+.file-name:hover {
+    text-decoration: underline !important;
+}

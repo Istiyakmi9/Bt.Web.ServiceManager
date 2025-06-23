@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorToast, Toast } from '../services/common.service';
 
 @Component({
   selector: 'app-manage-cronjob',
@@ -73,7 +74,7 @@ export class ManageCronjobComponent implements OnInit {
         }
       },
       error: err => {
-        console.error(err);
+        ErrorToast(err);
         this.isPageReady = true;
       }
     })
@@ -118,7 +119,7 @@ export class ManageCronjobComponent implements OnInit {
     this.isSubmitted = true;
     if (this.jobsForm.invalid) {
       this.isLoading = false;
-      alert("Please fill all the mandatory field");
+      ErrorToast("Please fill all the mandatory field");
       return;
     }
 
@@ -130,14 +131,14 @@ export class ManageCronjobComponent implements OnInit {
     this.http.post(this.baseUrl + "Job/manageJobs", value).subscribe({
       next: (res: any) => {
         if (res.responseBody) {
-          alert("Job detail insert/updated successfully");
+          Toast("Job detail insert/updated successfully");
           this.isLoading = false;
           this.isSubmitted = false;
         }
       },
       error: err => {
         this.isLoading = false;
-        console.error(err);
+        ErrorToast(err);
       }
     })
   }

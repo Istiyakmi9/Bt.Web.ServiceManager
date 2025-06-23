@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterNewOrgComponent } from './register-new-org/register-new-org.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TrailListComponent } from './trail-list/trail-list.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ReloadDbComponent } from './reload-db/reload-db.component';
@@ -16,31 +16,31 @@ import { JobsListComponent } from './jobs-list/jobs-list.component';
 import { ManageCronjobComponent } from './manage-cronjob/manage-cronjob.component';
 import { NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CronJobComponent } from './cron-job/cron-job.component';
+import { CommonModule } from '@angular/common';
+import { ToastComponent } from './toast/toast.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    RegisterNewOrgComponent,
-    TrailListComponent,
-    PaginationComponent,
-    ReloadDbComponent,
-    ServiceHealthComponent,
-    LoginComponent,
-    LayoutComponent,
-    JobsListComponent,
-    ManageCronjobComponent,
-    CronJobComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgbModule,
-    NgbDatepickerModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ 
+    declarations: [
+        AppComponent,
+        RegisterNewOrgComponent,
+        TrailListComponent,
+        PaginationComponent,
+        ReloadDbComponent,
+        ServiceHealthComponent,
+        LoginComponent,
+        LayoutComponent,
+        JobsListComponent,
+        ManageCronjobComponent,
+        CronJobComponent,
+        ToastComponent
+    ],
+    bootstrap: [AppComponent], 
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgbModule,
+        CommonModule,
+        NgbDatepickerModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ResponseModal } from '../reload-db/reload-db.component';
+import { ErrorToast, Toast } from '../services/common.service';
 
 @Component({
   selector: 'app-service-health',
@@ -55,10 +56,10 @@ export class ServiceHealthComponent implements OnInit {
     this.http.get(this.baseUrl + "ServiceHealth/test").subscribe({
       next: (res:any) => {
         if (res.message)
-        console.log(res);
+        Toast(res);
       },
       error: err => {
-        console.log(err);
+        ErrorToast(err);
       },
     })
   }

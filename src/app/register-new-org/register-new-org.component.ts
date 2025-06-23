@@ -4,6 +4,7 @@ import data from "../../assets/server.json";
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ErrorToast, Toast } from '../services/common.service';
 
 @Component({
   selector: 'app-register-new-org',
@@ -67,7 +68,7 @@ export class RegisterNewOrgComponent implements OnInit {
         this.isPageReady = true;
       },
       error: error => {
-        console.log(error);
+        ErrorToast(error);
       }
     })
   }
@@ -99,7 +100,6 @@ export class RegisterNewOrgComponent implements OnInit {
   registerAccount() {
     this.isLoading = true;
     this.submitted = true;
-    console.log(this.initialForm.value);
     if (this.initialForm.invalid) {
       this.isLoading = false;
       return;
@@ -108,7 +108,7 @@ export class RegisterNewOrgComponent implements OnInit {
     if (value.OwnerName.includes(" ")) {
       let name = value.OwnerName.split(" ");
       if (name == null) {
-        alert("Unable to read owner name");
+        ErrorToast("Unable to read owner name");
         return;
       }
 
@@ -126,7 +126,7 @@ export class RegisterNewOrgComponent implements OnInit {
     if (value.FullAddress.includes(" ")) {
       //let address = value.FullAddress.split(" ");
       if (value.FullAddress == null) {
-        alert("Unable to read full address");
+        ErrorToast("Unable to read full address");
         return;
       }
 
@@ -136,12 +136,12 @@ export class RegisterNewOrgComponent implements OnInit {
     }
     this.http.post(this.baseUrl + "create/new_organization", value).subscribe({
       next: data => {
-        alert("Created");
+        Toast("Created");
         this.route.navigate(["/companytrialist"]);
         this.isLoading = false;
       },
       error: error => {
-        alert(error.message);
+        ErrorToast(error.message);
         this.isLoading = false;
       }
     })

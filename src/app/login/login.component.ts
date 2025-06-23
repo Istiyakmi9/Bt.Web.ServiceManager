@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { ErrorToast } from '../services/common.service';
 
 @Component({
   selector: 'app-login',
@@ -19,22 +20,22 @@ export class LoginComponent {
   login() {
     this.submitted = true;
     if (this.email == null || this.email == "") {
-      alert("Please enter email");
+      ErrorToast("Please enter email");
       return;
     }
 
     if (this.password == null || this.password == "") {
-      alert("Please enter password");
+      ErrorToast("Please enter password");
       return;
     }
 
     if (this.email != "info@bottomhalf.in") {
-      alert("Please enter registered email id");
+      ErrorToast("Please enter registered email id");
       return;
     }
 
     if (this.password != "123456789") {
-      alert("Please enter correct password");
+      ErrorToast("Please enter correct password");
       return;
     }
 
