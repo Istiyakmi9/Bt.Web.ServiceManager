@@ -33,7 +33,7 @@ export class JobsListComponent implements OnInit {
           this.isPageReady = true;
         }
       }, error: err => {
-        ErrorToast(err);
+        ErrorToast(err.error.ResponseBody);
         this.isPageReady = true;
       }
     })

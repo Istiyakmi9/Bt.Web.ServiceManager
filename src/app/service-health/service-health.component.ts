@@ -59,7 +59,7 @@ export class ServiceHealthComponent implements OnInit {
         Toast(res);
       },
       error: err => {
-        ErrorToast(err);
+        ErrorToast(err.error.ResponseBody);
       },
     })
   }

@@ -74,7 +74,7 @@ export class ManageCronjobComponent implements OnInit {
         }
       },
       error: err => {
-        ErrorToast(err);
+        ErrorToast(err.error.ResponseBody);
         this.isPageReady = true;
       }
     })
@@ -138,7 +138,7 @@ export class ManageCronjobComponent implements OnInit {
       },
       error: err => {
         this.isLoading = false;
-        ErrorToast(err);
+        ErrorToast(err.error.ResponseBody);
       }
     })
   }

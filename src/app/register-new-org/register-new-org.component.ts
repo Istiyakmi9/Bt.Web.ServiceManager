@@ -100,6 +100,7 @@ export class RegisterNewOrgComponent implements OnInit {
   registerAccount() {
     this.isLoading = true;
     this.submitted = true;
+
     if (this.initialForm.invalid) {
       this.isLoading = false;
       return;
@@ -141,7 +142,7 @@ export class RegisterNewOrgComponent implements OnInit {
         this.isLoading = false;
       },
       error: error => {
-        ErrorToast(error.message);
+        ErrorToast(error.error.ResponseBody);
         this.isLoading = false;
       }
     })

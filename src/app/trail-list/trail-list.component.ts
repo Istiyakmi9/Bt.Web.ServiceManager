@@ -36,8 +36,10 @@ export class TrailListComponent implements OnInit {
           this.trialData.TotalRecords = 0;
 
         this.isPageReady = true;
+        Toast("Data loaded successfully")
       },
       error: error => {
+        ErrorToast(error.error.ResponseBody);
         ErrorToast(error.error.ResponseBody);
       }
     })
@@ -57,6 +59,7 @@ export class TrailListComponent implements OnInit {
         this.isPageReady = true;
       },
       error: error => {
+        ErrorToast(error.error.ResponseBody);
         ErrorToast(error.error.ResponseBody);
       }
     })
