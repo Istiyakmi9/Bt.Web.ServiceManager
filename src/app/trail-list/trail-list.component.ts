@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { ErrorToast } from '../services/common.service';
+import { ErrorToast, Toast } from '../services/common.service';
 
 @Component({
   selector: 'app-trail-list',

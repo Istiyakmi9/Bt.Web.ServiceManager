@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ErrorToast, Toast } from '../services/common.service';
-import { CompanyName } from '../services/constant';
+import { Authorization, CompanyName } from '../services/constant';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
@@ -45,15 +45,18 @@ export class LoginComponent implements OnInit {
       Company: this.company
     }
 
+    sessionStorage.setItem(CompanyName, this.company);
     this.http.post(this.baseUrl + "login/authenticateUser", value).subscribe({
       next: (res: any) => {
-        if (res.responseBody) {
+        if (res.ResponseBody) {
           this.auth.login();
           sessionStorage.setItem(CompanyName, this.company);
+          sessionStorage.setItem(Authorization, res.ResponseBody.Token);
           this.router.navigateByUrl("/ems/companytrialist");
           Toast("Login successfully.")
         }
       }, error: err => {
+        sessionStorage.removeItem(CompanyName);
         ErrorToast(err.error.ResponseBody);
       }
     })

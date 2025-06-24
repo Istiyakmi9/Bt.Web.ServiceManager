@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth, CompanyName } from './constant';
+import { Authorization, Auth, CompanyName } from './constant';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +26,9 @@ export class AuthService {
 
   getCurrentCompany(): string {
     return sessionStorage.getItem(CompanyName);
+  }
+
+  getAccessToken(): string {
+    return sessionStorage.getItem(Authorization);
   }
 }

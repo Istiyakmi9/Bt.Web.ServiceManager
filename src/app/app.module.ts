@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterNewOrgComponent } from './register-new-org/register-new-org.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { TrailListComponent } from './trail-list/trail-list.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ReloadDbComponent } from './reload-db/reload-db.component';
@@ -18,6 +18,7 @@ import { NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CronJobComponent } from './cron-job/cron-job.component';
 import { CommonModule } from '@angular/common';
 import { ToastComponent } from './toast/toast.component';
+import { AuthHeaderInterceptor } from './services/auth-header.interceptor';
 
 @NgModule({ 
     declarations: [
@@ -42,5 +43,15 @@ import { ToastComponent } from './toast/toast.component';
         ReactiveFormsModule,
         NgbModule,
         CommonModule,
-        NgbDatepickerModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        NgbDatepickerModule], 
+        providers: 
+        [
+            {
+                provide: HTTP_INTERCEPTORS,
+                useClass: AuthHeaderInterceptor,
+                multi: true
+            },
+            provideHttpClient(withInterceptorsFromDi())
+        ] 
+})
 export class AppModule { }
