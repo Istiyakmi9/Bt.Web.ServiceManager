@@ -35,7 +35,7 @@ export class CronJobComponent implements OnInit {
         }
       }, 
       error: error => {
-        ErrorToast(error.error.ResponseBody);
+        ErrorToast(error.error.ResponseBody)
         this.isLoading = false;
       }
     })
