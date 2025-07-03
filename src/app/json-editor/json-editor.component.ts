@@ -5,13 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { ErrorToast, HideModal, ShowModal, Toast } from '../services/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-json-editor',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, NgbTooltipModule],
   templateUrl: './json-editor.component.html',
-  styleUrl: './json-editor.component.scss'
+  styleUrl: './json-editor.component.scss',
+  host: { class: 'd-block' },
 })
 export class JsonEditorComponent implements AfterViewInit, OnInit {
   @ViewChild('codeTextarea') codeTextarea!: ElementRef<HTMLTextAreaElement>;
@@ -223,8 +225,7 @@ export class JsonEditorComponent implements AfterViewInit, OnInit {
         .replace(/(\w+)=/g, '<span class="xml-attribute">$1</span>=')
         .replace(/="([^"]*)"/g, '=<span class="xml-string">"$1"</span>');
     });
-}
-
+  }
 
   formatCode() {
     try {
@@ -324,6 +325,10 @@ export class JsonEditorComponent implements AfterViewInit, OnInit {
       this.fileDetail.FileName = "";
 
     ShowModal("fileNameModal");
+  }
+
+  navToFileList() {
+    this.route.navigate(["/ems/filelist"]);
   }
 }
 

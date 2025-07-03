@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { ErrorToast, ShowModal, Toast } from '../services/common.service';
+import { ErrorToast, HideModal, ShowModal, Toast } from '../services/common.service';
 import { FileDetail } from '../json-editor/json-editor.component';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,11 +16,13 @@ import { CommonModule } from '@angular/common';
   styleUrl: './file-list.component.scss'
 })
 export class FileListComponent implements OnInit {
-  baseUrl: string = "";
+  private baseUrl: string = "";
   fileDetails: Array<FileDetail> = [];
   isPageReady: boolean = false;
   selectDeleteFile: FileDetail = null;
   isLoading: boolean = false;
+  tokenFileDetail: TokenFileDetail = {Key: null, CompanyCode: null, ExpiryTimeInSeconds: null, Issuer: null};
+  submitted: boolean = false;
   constructor(private http: HttpClient,
               private router: Router
   ) {}
@@ -75,4 +77,64 @@ export class FileListComponent implements OnInit {
       })
     }
   }
+
+  addTokenFilePoppup() {
+    this.submitted = false;
+    this.tokenFileDetail = {Key: null, CompanyCode: null, ExpiryTimeInSeconds: null, Issuer: null};
+    ShowModal("manageTokenFileModal");
+  }
+
+  saveTokenDetail() {
+    this.submitted = true;
+    if (!this.tokenFileDetail.Key) {
+      ErrorToast("Please add secret key");
+      return;
+    }
+
+    if (!this.tokenFileDetail.Issuer) {
+      ErrorToast("Please add issuer");
+      return;
+    }
+
+    if (!this.tokenFileDetail.CompanyCode) {
+      ErrorToast("Please add company code");
+      return;
+    }
+
+    if (this.tokenFileDetail.ExpiryTimeInSeconds == null || this.tokenFileDetail.ExpiryTimeInSeconds < 6000) {
+      ErrorToast("Please specify an expiry time greater than 6000.");
+      return;
+    }
+    this.saveContent();
+  }
+
+  generateSecretKey() {
+    const length = 32;
+    const array = new Uint8Array(length);
+    window.crypto.getRandomValues(array)
+    this.tokenFileDetail.Key = Array.from(array, b => ('0' + (b & 0xff).toString(16)).slice(-2)).join('').substring(0, length);
+  }
+
+  private saveContent() {
+    this.isLoading = true;
+    
+    this.http.post(this.baseUrl + "FileDetail/saveTokenFile", this.tokenFileDetail).subscribe({
+      next: (res: any) => {
+        Toast("Token detail inert/updated successfully");
+        //HideModal("manageTokenFileModal");
+        this.isLoading = false;
+      },
+      error: error => {
+        this.isLoading = false;
+        ErrorToast(error.error.ResponseBody);
+      }
+    })
+  }
+}
+
+export interface TokenFileDetail {
+  Key: string;
+  Issuer: string;
+  CompanyCode: string;
+  ExpiryTimeInSeconds: number;
 }
