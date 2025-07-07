@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   submitted: boolean = false;
   company: string ="emstum";
   baseUrl: string = "";
+  isLoading: boolean = false;
   constructor(private router: Router,
               private auth: AuthService,
               private http: HttpClient
@@ -45,6 +46,7 @@ export class LoginComponent implements OnInit {
       Company: this.company
     }
 
+    this.isLoading = true;
     sessionStorage.setItem(CompanyName, this.company);
     this.http.post(this.baseUrl + "login/authenticateUser", value).subscribe({
       next: (res: any) => {
@@ -52,11 +54,13 @@ export class LoginComponent implements OnInit {
           this.auth.login();
           sessionStorage.setItem(CompanyName, this.company);
           sessionStorage.setItem(Authorization, res.ResponseBody.Token);
+          Toast("Login successfully.");
+          this.isLoading = false;
           this.router.navigateByUrl("/ems/companytrialist");
-          Toast("Login successfully.")
         }
       }, error: err => {
         sessionStorage.removeItem(CompanyName);
+        this.isLoading = false;
         ErrorToast(err.error.ResponseBody);
       }
     })

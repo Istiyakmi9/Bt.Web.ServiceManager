@@ -32,7 +32,10 @@
                 </a>
             </div>
             <div class="d-grid mb-4">
-                <button type="submit" class="btn btn-primary-c" (click)="login()">Login</button>
+                <button type="submit" class="btn btn-primary-c" (click)="login()" [disabled]="isLoading">
+                    <i class="fa-solid " [ngClass]="{'fa-spinner fa-spin': isLoading, 'fa-arrow-right-to-bracket': !isLoading}"></i>
+                    <span class="ps-2">{{isLoading ? 'Wait': 'Login'}}</span>
+                </button>
             </div>
         </form>
     </div>

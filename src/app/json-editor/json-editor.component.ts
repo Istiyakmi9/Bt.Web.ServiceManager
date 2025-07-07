@@ -38,11 +38,13 @@ export class JsonEditorComponent implements AfterViewInit, OnInit {
     OldFileName: ""
   };
   isPageReady: boolean = false;
+  private PId: number = 0;
   constructor(private http: HttpClient,
               private router: ActivatedRoute,
               private route: Router
   ) {
-    this.fileDetail.FileDetailId = Number(this.router.snapshot.queryParams['Id'])
+    this.fileDetail.FileDetailId = Number(this.router.snapshot.queryParams['Id']);
+    this.PId = Number(this.router.snapshot.queryParams['PId']);
   }
   ngOnInit(): void {
     this.baseUrl = environment.baseURL;
@@ -286,7 +288,7 @@ export class JsonEditorComponent implements AfterViewInit, OnInit {
   saveContent() {
     if (this.fileDetail.Content && this.fileDetail.FileName) {
       this.isLoading = true;
-      
+      this.fileDetail.ParentId = this.PId;
       this.http.post(this.baseUrl + "FileDetail/saveFileDetail", this.fileDetail).subscribe({
         next: (res: any) => {
           Toast("Save successfully");
@@ -302,7 +304,7 @@ export class JsonEditorComponent implements AfterViewInit, OnInit {
 
   readContent() {
     this.isPageReady = false;
-    this.http.get(this.baseUrl + `FileDetail/readFile/${this.fileDetail.FileDetailId}`).subscribe({
+    this.http.get(this.baseUrl + `FileDetail/readFile/${this.fileDetail.FileDetailId}/${this.PId}`).subscribe({
       next: (res: any) => {
         this.fileDetail = res.responseBody;
         this.isPageReady = true;
