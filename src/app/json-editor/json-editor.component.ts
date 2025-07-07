@@ -34,7 +34,7 @@ export class JsonEditorComponent implements AfterViewInit, OnInit {
     Extension: "txt",
     FileName: "",
     FileDetailId: 0,
-    FilePath: "",
+    ParentId: 0,
     OldFileName: ""
   };
   isPageReady: boolean = false;
@@ -338,8 +338,9 @@ export interface FileDetail {
   Content: string;
   Extension: string;
   FileName: string;
-  FilePath: string;
+  ParentId: number;
   OldFileName: string;
   CreatedBy?: number;
   CreatedOn?: Date;
+  Paths?: string;
 }

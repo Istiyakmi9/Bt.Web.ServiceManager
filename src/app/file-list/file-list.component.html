@@ -1,4 +1,6 @@
 <div class="col-md-6 mx-auto">
+    <app-breadcrums [title]="'Generate bill'" [routes]="routePath" (loadRoute)="loadRoute($event)"></app-breadcrums>
+
     @if (isPageReady) {
     <div class="text-end my-2">
         <button class="btn btn-primary-c" (click)="addTokenFilePoppup()"><i class="fa-solid fa-plus"></i> Add Token
@@ -12,9 +14,19 @@
         <li class="list-group-item">
             <div class="row align-items-center justify-content-between">
                 <div class="col-md-6 d-flex align-items-center">
-                    <i class="fa-regular fa-file pe-2"></i>
+                    @switch (item.Extension) {
+                        @case ('txt') {
+                            <i class="fa-regular fa-file-lines me-2"></i>
+                        }
+                        @case ('dir') {
+                            <i class="fa-solid fa-folder me-2" style="color: #74C0FC;"></i>
+                        }
+                        @default {
+                            <i class="fa-solid fa-file me-2"></i>
+                        }
+                    }                    
                     <a href="javascript:void(0)" class="col-md-11 text-decoration-none text-dark file-name"
-                        (click)="viewFile(item)">
+                        (click)="loadNext(item)">
                         <p class="mb-0 col-md-12 text-truncate">
                             {{item.FileName}}
                         </p>
