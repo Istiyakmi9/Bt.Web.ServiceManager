@@ -21,7 +21,7 @@ export class FileListComponent implements OnInit {
   isPageReady: boolean = false;
   selectDeleteFile: FileDetail = null;
   isLoading: boolean = false;
-  tokenFileDetail: TokenFileDetail = {Key: null, CompanyCode: null, ExpiryTimeInSeconds: null, Issuer: null};
+  tokenFileDetail: TokenFileDetail = {Key: null, CompanyCode: null, ExpiryTimeInSeconds: null, Issuer: null, ParentId: 0};
   submitted: boolean = false;
   constructor(private http: HttpClient,
               private router: Router
@@ -80,7 +80,7 @@ export class FileListComponent implements OnInit {
 
   addTokenFilePoppup() {
     this.submitted = false;
-    this.tokenFileDetail = {Key: null, CompanyCode: null, ExpiryTimeInSeconds: null, Issuer: null};
+    this.tokenFileDetail = {Key: null, CompanyCode: null, ExpiryTimeInSeconds: null, Issuer: null, ParentId: 0};
     ShowModal("manageTokenFileModal");
   }
 
@@ -117,11 +117,11 @@ export class FileListComponent implements OnInit {
 
   private saveContent() {
     this.isLoading = true;
-    
+    this.tokenFileDetail.ParentId = 0;
     this.http.post(this.baseUrl + "FileDetail/saveTokenFile", this.tokenFileDetail).subscribe({
       next: (res: any) => {
         Toast("Token detail inert/updated successfully");
-        //HideModal("manageTokenFileModal");
+        HideModal("manageTokenFileModal");
         this.isLoading = false;
       },
       error: error => {
@@ -137,4 +137,5 @@ export interface TokenFileDetail {
   Issuer: string;
   CompanyCode: string;
   ExpiryTimeInSeconds: number;
+  ParentId: number;
 }
