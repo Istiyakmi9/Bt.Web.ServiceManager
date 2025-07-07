@@ -2,11 +2,10 @@
     <app-breadcrums [title]="'Generate bill'" [routes]="routePath" (loadRoute)="loadRoute($event)"></app-breadcrums>
 
     @if (isPageReady) {
-    <div class="text-end my-2">
-        <button class="btn btn-primary-c" (click)="addTokenFilePoppup()"><i class="fa-solid fa-plus"></i> Add Token
-            File</button>
-        <button class="btn btn-primary-c ms-2" (click)="addNewFile()"><i class="fa-solid fa-plus"></i> Add Normal
-            File</button>
+    <div class="text-end mb-3 mt-2">
+        <button class="btn btn-primary-c" (click)="addFolderPopup()"><i class="fa-solid fa-plus"></i> Add Folder</button>
+        <button class="btn btn-primary-c mx-2" (click)="addTokenFilePoppup()"><i class="fa-solid fa-plus"></i> Add Token File</button>
+        <button class="btn btn-primary-c" (click)="addNewFile()"><i class="fa-solid fa-plus"></i> Add Normal File</button>
     </div>
     @if (fileDetails != null && fileDetails.length > 0) {
     <ul class="list-group">
@@ -39,12 +38,18 @@
                     {{item.CreatedOn | date}}
                 </div>
                 <div class="col-auto">
-                    <a href="javascript:void(0)" (click)="viewFile(item)">
-                        <i class="fa-solid fa-pencil"></i>
-                    </a>
-                    <a href="javascript:void(0)" class="ms-3 text-danger" (click)="deleteFilePopup(item)">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
+                    @if (item.Extension == 'dir') {
+                        <a href="javascript:void(0)" (click)="editFolderPopup(item)">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                    } @else {
+                        <a href="javascript:void(0)" class="me-3 text-danger" (click)="deleteFilePopup(item)">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                        <a href="javascript:void(0)" (click)="viewFile(item)">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                    }
                 </div>
             </div>
         </li>
@@ -117,6 +122,34 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                     [disabled]="isLoading">Close</button>
                 <button type="button" class="btn btn-primary-c" [disabled]="isLoading" (click)="saveTokenDetail()">
+                    <i class="fa-solid" [ngClass]="{'fa-spinner fa-spin': isLoading, 'fa-floppy-disk': !isLoading}"></i>
+                    {{ isLoading ? 'Wait' : 'Save' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Manage Folder -->
+<div class="modal fade" id="manageFolderModal" tabindex="-1" aria-labelledby="manageFolderModalLabel"
+    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content px-3">
+            <div class="modal-header border-bottom-0">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Manage folder name</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <label class="form-label">Folder Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Folder Name" [(ngModel)]="folderDetail.FileName" [ngClass]="{'error-field': submitted && (folderDetail.FileName == null || folderDetail.FileName == '')}">
+                </div>
+            </div>
+            <div class="modal-footer border-top-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    [disabled]="isLoading">Close</button>
+                <button type="button" class="btn btn-primary-c" [disabled]="isLoading" (click)="manageFolderDetail()">
                     <i class="fa-solid" [ngClass]="{'fa-spinner fa-spin': isLoading, 'fa-floppy-disk': !isLoading}"></i>
                     {{ isLoading ? 'Wait' : 'Save' }}
                 </button>

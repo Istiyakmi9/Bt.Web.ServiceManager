@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { ErrorToast, ShowModal, Toast } from '../services/common.service';
+import { ErrorToast, HideModal, ShowModal, Toast } from '../services/common.service';
 import { FileDetail } from '../json-editor/json-editor.component';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -24,8 +24,10 @@ export class FileListComponent implements OnInit {
   isLoading: boolean = false;
   rootPath: any = {"Name": "root", "Id": 0};
   routePath: Array<any> = [];
-  tokenFileDetail: TokenFileDetail = {Key: null, CompanyCode: null, ExpiryTimeInSeconds: null, Issuer: null};
+  tokenFileDetail: TokenFileDetail = {Key: null, CompanyCode: null, ExpiryTimeInSeconds: null, Issuer: null, ParentId: 0};
   submitted: boolean = false;
+  private parentId: number = 0;
+  folderDetail: FileDetail = {Content: null, Extension: 'dir', FileDetailId: 0, FileName: null, OldFileName: null, ParentId: 0};
   constructor(private http: HttpClient,
               private router: Router,
               private location: Location
@@ -36,6 +38,7 @@ export class FileListComponent implements OnInit {
   }
 
   load_files_dirs(parentId: number) {
+    this.parentId = parentId;
     this.http.get(this.baseUrl + `FileDetail/getFilesDirs/${parentId}`).subscribe({
       next: (res: any) => {
         // this.location.go(`filelist/${parentId}`)
@@ -70,12 +73,12 @@ export class FileListComponent implements OnInit {
 
   viewFile(item: FileDetail) {
     if (item) {
-      this.router.navigate(["/ems/filelist/jsoneditor"], {queryParams: {Id: item.FileDetailId}});
+      this.router.navigate(["/ems/filelist/jsoneditor"], {queryParams: {Id: item.FileDetailId, PId: item.ParentId}});
     }
   }
 
   addNewFile() {
-    this.router.navigate(["/ems/filelist/jsoneditor"], {queryParams: {Id: 0}});
+    this.router.navigate(["/ems/filelist/jsoneditor"], {queryParams: {Id: 0, PId: this.parentId}});
   }
 
   deleteFilePopup(item: FileDetail) {
@@ -91,6 +94,7 @@ export class FileListComponent implements OnInit {
         next: (res: any) => {
           this.fileDetails = res.responseBody;
           Toast("File deleted successfully");
+          HideModal("deleteFileModal");
           this.isLoading = false;
         },
         error: error => {
@@ -140,11 +144,58 @@ export class FileListComponent implements OnInit {
 
   private saveContent() {
     this.isLoading = true;
-    this.tokenFileDetail.ParentId = 0;
+    this.tokenFileDetail.ParentId = this.parentId;
     this.http.post(this.baseUrl + "FileDetail/saveTokenFile", this.tokenFileDetail).subscribe({
       next: (res: any) => {
+        this.fileDetails = res.responseBody;
+        this.routePath = [this.rootPath];
+        if(this.fileDetails.length > 0 && this.fileDetails[0]["Paths"] != null) {
+          let paths: Array<any> = JSON.parse(this.fileDetails[0]["Paths"]);
+          this.routePath.push(...paths.reverse());
+        }
         Toast("Token detail inert/updated successfully");
         HideModal("manageTokenFileModal");
+        this.isLoading = false;
+      },
+      error: error => {
+        this.isLoading = false;
+        ErrorToast(error.error.ResponseBody);
+      }
+    })
+  }
+
+  addFolderPopup() {
+    this.submitted = false;
+    this.folderDetail = {Content: null, Extension: 'dir', FileDetailId: 0, FileName: null, OldFileName: null, ParentId: 0};
+    ShowModal("manageFolderModal");
+  }
+
+  editFolderPopup(item: FileDetail) {
+    this.submitted = false;
+    this.folderDetail = item;
+    ShowModal("manageFolderModal");
+  }
+
+  manageFolderDetail() {
+    this.submitted = true;
+
+    if (!this.folderDetail.FileName) {
+      ErrorToast('Please add folder name');
+      return;
+    }
+
+    this.isLoading = true;
+    this.folderDetail.ParentId = this.parentId;
+    this.http.post(this.baseUrl + "FileDetail/manageFolderDetail", this.folderDetail).subscribe({
+      next: (res: any) => {
+        this.fileDetails = res.responseBody;
+        this.routePath = [this.rootPath];
+        if(this.fileDetails.length > 0 && this.fileDetails[0]["Paths"] != null) {
+          let paths: Array<any> = JSON.parse(this.fileDetails[0]["Paths"]);
+          this.routePath.push(...paths.reverse());
+        }
+        Toast("Token detail inert/updated successfully");
+        HideModal("manageFolderModal");
         this.isLoading = false;
       },
       error: error => {
