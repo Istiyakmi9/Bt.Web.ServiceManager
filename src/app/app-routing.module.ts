@@ -12,6 +12,7 @@ import { AuthGuard } from './services/auth.guard';
 import { CronJobComponent } from './cron-job/cron-job.component';
 import { JsonEditorComponent } from './json-editor/json-editor.component';
 import { FileListComponent } from './file-list/file-list.component';
+import { EventsListComponent } from './events-list/events-list.component';
 
 const routes: Routes = [
   // {path: "", redirectTo: 'companytrialist', pathMatch: 'full'},
@@ -34,6 +35,7 @@ const routes: Routes = [
       {path: "reloaddb/cronjob", component: CronJobComponent, canActivate: [AuthGuard]},
       {path: 'filelist/jsoneditor', component: JsonEditorComponent, canActivate: [AuthGuard]},
       {path: 'filelist', component: FileListComponent, canActivate: [AuthGuard]},
+      {path: 'events', component: EventsListComponent, canActivate: [AuthGuard]},
     ]
   },
   { path: '**', redirectTo: 'login'},
