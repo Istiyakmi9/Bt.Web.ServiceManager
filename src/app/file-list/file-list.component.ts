@@ -8,11 +8,13 @@ import { Router } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule, Location } from '@angular/common';
 import { BreadcrumsComponent } from '../breadcrums/breadcrums.component';
+import { TreeComponent } from '../tree/tree.component';
+import { TreeService } from '../tree/tree.service';
 
 @Component({
   selector: 'app-file-list',
   standalone: true,
-  imports: [FormsModule, NgbTooltipModule, CommonModule, BreadcrumsComponent],
+  imports: [FormsModule, NgbTooltipModule, CommonModule, BreadcrumsComponent, TreeComponent],
   templateUrl: './file-list.component.html',
   styleUrl: './file-list.component.scss'
 })
@@ -28,11 +30,16 @@ export class FileListComponent implements OnInit {
   submitted: boolean = false;
   private parentId: number = 0;
   folderDetail: FileDetail = {Content: null, Extension: 'dir', FileDetailId: 0, FileName: null, OldFileName: null, ParentId: 0};
+
+  public nodes: any;
+
   constructor(private http: HttpClient,
               private router: Router,
-              private location: Location
+              private location: Location,
+              private treeService: TreeService
   ) {}
   ngOnInit(): void {
+    this.nodes = this.treeService.fetchNodes();
     this.baseUrl = environment.baseURL;
     this.load_files_dirs(0);
   }
