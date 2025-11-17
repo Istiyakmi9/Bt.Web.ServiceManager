@@ -1,0 +1,25 @@
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Event Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of eventList; track $index) {
+                <tr>
+                    <td>{{$index + 1}}</td>
+                    <td>{{item.Name}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary-c"  (click)="runEvent(item)"[disabled]="isLoading">
+                            <i [ngClass]="{'fa-solid fa-spinner fa-spin': isLoading}"></i>
+                            {{ isLoading ? 'Wait' : 'Run' }}
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

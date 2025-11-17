@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CronJob } from '../jobs-list/jobs-list.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -44,7 +44,8 @@ export class ManageCronjobComponent implements OnInit {
   topics: Array<string> = [];
   constructor(private router: ActivatedRoute,
               private http: HttpClient,
-              private fb: FormBuilder
+              private fb: FormBuilder,
+              private route: Router
   ) {
     this.cronJobId = Number(this.router.snapshot.queryParams['Id']);
     this.baseUrl = environment.baseURL;
@@ -132,6 +133,7 @@ export class ManageCronjobComponent implements OnInit {
       next: (res: any) => {
         if (res.responseBody) {
           Toast("Job detail insert/updated successfully");
+          this.route.navigateByUrl("ems/jobs");
           this.isLoading = false;
           this.isSubmitted = false;
         }
@@ -162,5 +164,9 @@ export class ManageCronjobComponent implements OnInit {
     }
   
     return null;
+  }
+
+  backToCronJobList() {
+    this.route.navigateByUrl("ems/jobs");
   }
 }
